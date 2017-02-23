@@ -1,27 +1,26 @@
 import React from 'react';
-import FilteredListGroupTerm from './filtered-list-group-term';
+import Checkbox from './checkbox';
 
 class FilteredListGroup extends React.Component {
 
     parseTermData(term) {
-        let name = typeof term === 'object' && term.name || term,
-            title = typeof term === 'object' && term.title || term;
         return {
-            name: name.toString(),
-            title: title.toString()
+            name: typeof term === 'object' && term.name || term,
+            title: typeof term === 'object' && term.title || term
         }
     }
 
     renderGroupTerm(term) {
         let data = this.parseTermData(term);
+            data.group = this.props.group.name;
         return (
-            <FilteredListGroupTerm
-                key={data.name}
-                onToggle={this.props.onToggle}
-                groupName={this.props.group.name}
-                name={data.name}
-                title={data.title}
-            />
+            <li key={data.name} className='filtered-list-group-term'>
+                <Checkbox
+                    label={data.title}
+                    value={data}
+                    onToggle={this.props.onToggle}
+                />
+            </li>
         );
     }
 

@@ -6,36 +6,57 @@ class FilteredList extends React.Component {
     constructor() {
         super();
         this.state = {
-            selection: {},
+            selection: {}
         }
         this.onToggle = this.onToggle.bind(this);
     }
 
-    onToggle(groupName, termName) {
+    onToggle(term) {
         let newSelection = {},
-            oldGroup = this.state.selection[groupName] || [],
+            oldGroup = this.state.selection[term.group] || [],
             newGroup =
-                  oldGroup.indexOf(termName) !== -1
-                ? oldGroup.filter(term => term !== termName)
-                : [...oldGroup, termName];
+                  oldGroup.indexOf(term.name) !== -1
+                ? oldGroup.filter(item => item !== term.name)
+                : [...oldGroup, term.name];
                 
         if (newGroup.length > 0) {
-            newSelection[groupName] = newGroup;
+            newSelection[term.group] = newGroup;
         }
         for (let name in this.state.selection) {
-            if (name !== groupName) {
+            if (name !== term.group) {
                 newSelection[name] = [...this.state.selection[name]];
-            }   
+            }
         }
         this.setState({
             selection: newSelection
         });
     }
 
-    getItems() {
-        return this.props.items.map((item, index) =>
-            <li key={index}>{item.title}</li>
-        );
+    isSelected(item) {
+        let selection = this.state.selection,
+            required = 0,
+            passed = 0;
+
+        for (let groupName in selection) {
+             let currGroup = selection[groupName],
+                 itemGroup = item[groupName];
+
+            required += currGroup.length;
+            if (typeof itemGroup !== 'undefined') {
+                for (let i=0; i<currGroup.length; i++) {
+                    if ((itemGroup.constructor === Array &&
+                        itemGroup.indexOf(currGroup[i]) !== -1) ||
+                        itemGroup === currGroup[i])
+                    {
+                        passed++;
+                    }
+                }
+            }
+            if (passed !== required) {
+                return false;
+            }
+        }
+        return true;
     }
 
     render() {
@@ -52,7 +73,10 @@ class FilteredList extends React.Component {
                     )}
                 </ul>
                 <ul className='filtered-list-items'>
-                    {this.getItems()}
+                    {this.props.items
+                        .filter(item => this.isSelected(item))
+                        .map(item => <li key={item.id}>{item.title}</li>
+                    )}
                 </ul>
             </div>
         );

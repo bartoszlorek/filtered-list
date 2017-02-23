@@ -4,17 +4,20 @@ import FilteredList from './filtered-list';
 
 const items = [
     {
+        id: 0,
         title: 'Bring Your Own',
         type: ['concert', 'standup'],
-        location: '1a'
+        location: '1a',
     },
     {
+        id: 1,
         title: 'The Hidden Photo',
         type: 'exhibition',
         location: '1a',
         year: 2015
     },
     {
+        id: 2,
         title: 'The Lion King',
         type: 'show',
         location: '1b',
