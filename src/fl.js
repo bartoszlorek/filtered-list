@@ -1,21 +1,21 @@
 import React from 'react';
-import FilteredListGroup from './filtered-list-group';
-import FilteredListItem from './filtered-list-item';
-import style from './filtered-list.css';
+import FilteredListFilter from './fl-filter';
+import FilteredListItem from './fl-item';
+import style from './fl.css';
 
 class FilteredList extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            selectedFields: {},
+            selectedFilters: {},
             searchValue: ''
         }
         this.onSearchChange = this.onSearchChange.bind(this);
-        this.onFieldToggle = this.onFieldToggle.bind(this);
+        this.onFilterToggle = this.onFilterToggle.bind(this);
     }
 
-    getFilterGroup(name) {
+    getFilter(name) {
         let filters = this.props.filters;
         for (let i=0; i<filters.length; i++) {
             if (filters[i].name === name) {
@@ -30,28 +30,28 @@ class FilteredList extends React.Component {
         });
     }
 
-    onFieldToggle(field) {
+    onFilterToggle(field) {
         let selection = {},
-            oldGroup = this.state.selectedFields[field.group] || [],
-            newGroup =
-                  oldGroup.indexOf(field.name) !== -1
-                ? oldGroup.filter(fieldName => fieldName !== field.name)
-                : [...oldGroup, field.name];
+            oldFilter = this.state.selectedFilters[field.filter] || [],
+            newFilter =
+                  oldFilter.indexOf(field.name) !== -1
+                ? oldFilter.filter(fieldName => fieldName !== field.name)
+                : [...oldFilter, field.name];
 
-        let limit = this.getFilterGroup(field.group).limit;
-        if (limit > 0 && newGroup.length > limit) {
-            newGroup.shift();
+        let limit = this.getFilter(field.filter).limit;
+        if (limit > 0 && newFilter.length > limit) {
+            newFilter.shift();
         }   
-        if (newGroup.length > 0) {
-            selection[field.group] = newGroup;
+        if (newFilter.length > 0) {
+            selection[field.filter] = newFilter;
         }
-        for (let name in this.state.selectedFields) {
-            if (name !== field.group) {
-                selection[name] = [...this.state.selectedFields[name]];
+        for (let name in this.state.selectedFilters) {
+            if (name !== field.filter) {
+                selection[name] = [...this.state.selectedFilters[name]];
             }
         }
         this.setState({
-            selectedFields: selection
+            selectedFilters: selection
         });
     }
 
@@ -63,21 +63,21 @@ class FilteredList extends React.Component {
     }
 
     isSelected(item) {
-        let selected = this.state.selectedFields,
+        let selected = this.state.selectedFilters,
             reducer = this.props.reducer,
             required = 0,
             passed = 0;
 
-        for (let groupName in selected) {
-             let currGroup = selected[groupName],
-                 itemGroup = reducer(item, groupName);
+        for (let filterName in selected) {
+             let fields = selected[filterName],
+                 filter = reducer(item, filterName);
 
-            required += currGroup.length;
-            if (typeof itemGroup !== 'undefined') {
-                for (let i=0; i<currGroup.length; i++) {
-                    if ((itemGroup.constructor === Array &&
-                        itemGroup.indexOf(currGroup[i]) !== -1) ||
-                        itemGroup === currGroup[i])
+            required += fields.length;
+            if (typeof filter !== 'undefined') {
+                for (let i=0; i<fields.length; i++) {
+                    if ((filter.constructor === Array &&
+                        filter.indexOf(fields[i]) !== -1) ||
+                        filter === fields[i])
                     {
                         passed++;
                     }
@@ -103,13 +103,13 @@ class FilteredList extends React.Component {
                         className={style.search}
                         onChange={this.onSearchChange}
                     />
-                    <ul className={style.groups}>
-                        {this.props.filters.map((group) =>
-                            <FilteredListGroup
-                                key={group.name}
-                                onToggle={this.onFieldToggle}
-                                selected={this.state.selectedFields[group.name] || []}
-                                group={group}
+                    <ul className={style.filters}>
+                        {this.props.filters.map((filter) =>
+                            <FilteredListFilter
+                                key={filter.name}
+                                onToggle={this.onFilterToggle}
+                                selected={this.state.selectedFilters[filter.name] || []}
+                                filter={filter}
                             />
                         )}
                     </ul>
@@ -130,14 +130,14 @@ class FilteredList extends React.Component {
 }
 
 FilteredList.propTypes = {
-    items: React.PropTypes.array.isRequired,
     filters: React.PropTypes.array.isRequired,
+    items: React.PropTypes.array.isRequired,
     reducer: React.PropTypes.func
 };
 
 FilteredList.defaultProps = {
-    reducer: (item, groupName) => {
-        return item[groupName];
+    reducer: (item, filterName) => {
+        return item[filterName];
     }
 };
 

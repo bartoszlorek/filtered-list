@@ -18,7 +18,7 @@
     border: 1px solid #bbb;
 }
 
-.groups,
+.filters,
 .fields,
 .items {
     list-style: none;
@@ -26,24 +26,24 @@
     padding: 0;
 }
 
-.groups {}
-.group {
+.filters {}
+.filter {
     position: relative;
     margin: 0 0 1em;
     padding: 0 0 1em;
     border: 1px solid #bbb;
     border-width: 0 0 1px 0;
 }
-.group:last-child {
+.filter:last-child {
     border: 0;
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
-.groupTitle {
+.filterTitle {
     margin: 0 0 .5em;
 }
-.groupLimit {
+.filterLimit {
     position: absolute;
     left: 0; top: 0; right: 0; left: auto;
     font-style: italic;

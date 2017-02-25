@@ -1,18 +1,19 @@
 # filtered-list
 
 ### Simplified Component Structure
+Each filter is a group of fields.
 
 ```
-list
+fl
     banner
         search
-        groups
-            group
-                group-field
-                group-field
-            group
-                group-field
-                group-field
+        filters
+            filter
+                field
+                field
+            filter
+                field
+                field
     items
         item
         item
@@ -24,25 +25,7 @@ list
 ## Usage
 
 ```
-<FilteredList items filters [, reducer] />
-```
-
-items `[Array.isRequired]` **Important**: `id` must be unique!
-
-```
-[
-    {
-        id: 0,
-        title: 'Hello World!',
-        meta: {
-            type: ['assign', 'multiple', 'fields'],
-            location: 'string',
-            year: 2017,
-            ...
-        }
-    },
-    ...
-]
+<FilteredList filters items [, reducer] />
 ```
 
 filters `[Array.isRequired]` **Important**: `name` must be unique string value!
@@ -54,7 +37,8 @@ filters `[Array.isRequired]` **Important**: `name` must be unique string value!
         title: 'Type',
         limit: 0,
         fields: [
-            { name: 'assign', title: 'Assign Type' },
+            { name: 'fieldA', title: 'Field A' },
+            { name: 'fieldB', title: 'Field B' },
             ...
         ]
     },
@@ -62,8 +46,34 @@ filters `[Array.isRequired]` **Important**: `name` must be unique string value!
 ]
 ```
 
-reducer `[Function]` **Note**: `reducer` is optional. By default component is looking for filter group as `item` object's direct properties. To change this behavior use `reducer`.
+items `[Array.isRequired]`
 
 ```
-(item, groupName) => item.deeper.filters[groupName]
+[
+    {
+        // required and unique
+        id: 0,
+
+        // additional
+        title: 'Hello World!',
+
+        // filters
+        type: ['fieldA', 'fieldB', 'fieldC'],
+        location: 'fieldD',
+        year: 2017,
+        ...
+    },
+    ...
+]
 ```
+
+reducer `[Function]` **Note**: `reducer` is optional. By default component is looking for filters as `item` object's direct properties. To change this behavior use `reducer`.
+
+```
+(item, filterName) => item.deeper.filters[filterName]
+```
+
+## To Do
+
+- Order by filter
+- Sub-filters - select whole group or single field

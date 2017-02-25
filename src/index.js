@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { items, filters } from './data';
-import FilteredList from './filtered-list';
+import { filters, items } from './data';
+import FilteredList from './fl';
 
 render(
     <FilteredList
-        items={items}
         filters={filters}
+        items={items}
         reducer={(item, groupName) => {
             return item.meta[groupName];
         }}

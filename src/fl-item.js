@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './filtered-list.css';
+import style from './fl.css';
 
 class FilteredListItem extends React.Component {
 

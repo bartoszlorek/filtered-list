@@ -1,8 +1,8 @@
 import React from 'react';
 import Checkbox from './checkbox';
-import style from './filtered-list.css';
+import style from './fl.css';
 
-class FilteredListGroup extends React.Component {
+class FilteredListFilter extends React.Component {
 
     validateFieldData(data, additional) {
         let output = {
@@ -15,9 +15,9 @@ class FilteredListGroup extends React.Component {
         return output;
     }
 
-    renderGroupField(field) {
+    renderField(field) {
         let data = this.validateFieldData(field, {
-            group: this.props.group.name
+            filter: this.props.filter.name
         });
         return (
             <li key={data.name} className={style.field}>
@@ -33,17 +33,17 @@ class FilteredListGroup extends React.Component {
 
     render() {
         return (
-            <li className={style.group}>
-                <h3 className={style.groupTitle}>
-                    {this.props.group.title}
+            <li className={style.filter}>
+                <h3 className={style.filterTitle}>
+                    {this.props.filter.title}
                 </h3>
-                {this.props.group.limit > 0 &&
-                <span className={style.groupLimit}>
-                    {'max: '+this.props.group.limit}
+                {this.props.filter.limit > 0 &&
+                <span className={style.filterLimit}>
+                    {'max: '+this.props.filter.limit}
                 </span>}
                 <ul className={style.fields}>
-                    {this.props.group.fields.map((field) =>
-                        this.renderGroupField(field)
+                    {this.props.filter.fields.map((field) =>
+                        this.renderField(field)
                     )}
                 </ul>
             </li>
@@ -52,10 +52,10 @@ class FilteredListGroup extends React.Component {
     
 }
 
-FilteredListGroup.propTypes = {
-    group: React.PropTypes.shape({
+FilteredListFilter.propTypes = {
+    filter: React.PropTypes.shape({
         name: React.PropTypes.string.isRequired
     })
 };
 
-export default FilteredListGroup;
+export default FilteredListFilter;
