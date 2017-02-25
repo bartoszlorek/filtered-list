@@ -16,7 +16,19 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loaders: ['react-hot', 'babel'],
-            },
+            }, {
+                test: /\.css$/,
+                loader: 'style-loader',
+                include: /src/,
+            }, {
+                test: /\.css$/,
+                loader: 'css-loader',
+                include: /src/,
+                query: {
+                    modules: true,
+                    localIdentName: '[name]-[local]--[hash:base64:5]'
+                }
+            }
         ],
     },
     resolveLoader: {

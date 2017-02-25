@@ -20,6 +20,7 @@ class Checkbox extends React.Component {
                 <input
                     type='checkbox'
                     onChange={this.handleToggle}
+                    checked={this.props.checked}
                 />
                 {this.props.label}
             </label>
@@ -27,9 +28,15 @@ class Checkbox extends React.Component {
     }
 }
 
+Checkbox.propTypes = {
+    checked: React.PropTypes.bool,
+    onToggle: React.PropTypes.func
+};
+
 Checkbox.defaultProps = {
     label: '',
-    value: ''
+    value: '',
+    checked: false
 };
 
 export default Checkbox;
