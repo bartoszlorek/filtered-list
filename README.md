@@ -1,5 +1,7 @@
 # filtered-list
 
+[demo](http://bartoszlorek.pl/run/filtered-list/)
+
 ### Simplified Component Structure
 Each filter is a group of fields.
 
