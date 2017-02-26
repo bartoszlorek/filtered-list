@@ -1,5 +1,5 @@
-var path = require('path');
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: [
@@ -13,9 +13,9 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loaders: ['react-hot', 'babel'],
+                loaders: ['react-hot-loader', 'babel-loader'],
             }, {
                 test: /\.css$/,
                 loader: 'style-loader',
@@ -31,19 +31,12 @@ module.exports = {
             }
         ],
     },
-    resolveLoader: {
-        root: [
-            path.join(__dirname, 'node_modules'),
-        ],
-    },
     resolve: {
-        root: [
-            path.join(__dirname, 'node_modules'),
-        ],
-    },
+		extensions: ['.js', '.jsx']
+	},
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoEmitOnErrorsPlugin()
     ]
 }
