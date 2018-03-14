@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ubery/filtered-list.git"
+    "url": "git+https://github.com/bartoszlorek/filtered-list.git"
   },
   "author": "Bartosz Lorek",
   "license": "MIT",
